@@ -4,6 +4,7 @@ import bank.account.Account;
 
 import java.util.HashSet;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 
 public class Bank {
@@ -18,7 +19,7 @@ public class Bank {
     public String getName() {
         return name;
     }
-
+/*
     public Account getByNumber(int number) throws AccountNotFoundException{
         for (Account a:accounts) {
             if (a.getAccountNumber()==(number))
@@ -26,6 +27,18 @@ public class Bank {
         }
         throw new AccountNotFoundException(number, this.name);
     }
+    */
+public Optional<Account> getByNumber(int number) {
+    for (Account a : accounts) {
+        if (a.getAccountNumber() == number) {
+            return Optional.of(a);
+        }
+    }
+    return Optional.empty();
+
+}
+
+
 
     public void addAccount(Account account) {
         accounts.add(account);

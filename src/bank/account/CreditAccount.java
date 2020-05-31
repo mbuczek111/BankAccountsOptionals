@@ -42,7 +42,7 @@ public class CreditAccount extends Account {
     public BigDecimal transferMoney(String bankName, int accountNumber, BigDecimal amount) throws ReachedCreditLimitException{
         if(this.getBalance().subtract(amount).compareTo(creditLimit) > 0) {
             this.setBalance(this.getBalance().subtract(amount));
-            NationalBank.getByName(bankName).getByNumber(accountNumber).setBalance(NationalBank.getByName(bankName).getByNumber(accountNumber).getBalance().add(amount));
+            NationalBank.getByName(bankName).get().getByNumber(accountNumber).get().setBalance(NationalBank.getByName(bankName).get().getByNumber(accountNumber).get().getBalance().add(amount));
             this.addTransactionLog("Transferring money from Credit Account", LocalDateTime.now());
 
         }

@@ -1,5 +1,6 @@
 package bank.account;
 
+import bank.Bank;
 import bank.NationalBank;
 import bank.NonSufficientFundsException;
 
@@ -39,7 +40,13 @@ public class DepositAccount extends Account {
     public BigDecimal transferMoney(String bankName, int accountNumber, BigDecimal amount) throws NonSufficientFundsException{
         if(this.getBalance().subtract(amount).compareTo(BigDecimal.ZERO) >= 0) {
             this.setBalance(this.getBalance().subtract(amount));
-            NationalBank.getByName(bankName).getByNumber(accountNumber).setBalance(NationalBank.getByName(bankName).getByNumber(accountNumber).getBalance().add(amount));
+            Bank b1 =NationalBank.getByName(bankName).get();
+            if(b1.getByNumber(accountNumber).isPresent())
+            {
+                Account account = NationalBank.getByName(bankName).get().getByNumber(accountNumber).get();
+                account.setBalance(NationalBank.getByName(bankName).get().getByNumber(accountNumber).get().getBalance().add(amount));
+
+            }
             this.addTransactionLog("Transferring money from Deposit Account", LocalDateTime.now());
         }
         else
